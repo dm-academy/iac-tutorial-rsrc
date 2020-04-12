@@ -1,0 +1,18 @@
+apiVersion: apps/v1beta1 # implies the use of kubernetes 1.7
+                         # use apps/v1beta2 for kubernetes 1.8
+kind: Deployment
+metadata:
+  name: node-svc-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: node-ms
+  template:
+    metadata:
+      labels:
+        app: node-ms
+    spec:
+      containers:
+      - name: node-ms
+        image: dmacademy/node-microservice

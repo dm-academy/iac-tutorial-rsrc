@@ -16,3 +16,19 @@ resource "google_compute_instance" "node-svc" {
     access_config {} // use ephemeral public IP
   }
 }
+
+resource "google_compute_project_metadata" "node-svc" {
+  metadata = {
+    ssh-keys = "node-user:${file("~/.ssh/node-user.pub")}" // path to ssh key file
+  }
+}
+
+resource "google_compute_firewall" "node-svc" {
+  name    = "allow-node-svc-tcp-3000"
+  network = "default"
+  allow {
+    protocol = "tcp"
+    ports    = ["3000"]
+  }
+  source_ranges = ["0.0.0.0/0"]
+}

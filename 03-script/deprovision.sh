@@ -1,3 +1,3 @@
 #!/bin/bash
-gcloud compute instances delete -q node-instance
-gcloud compute firewall-rules delete -q allow-node-tcp-3000
+gcloud compute instances delete -q node-svc
+gcloud compute firewall-rules delete -q allow-node-svc-tcp-3000

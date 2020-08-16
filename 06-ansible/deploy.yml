@@ -1,0 +1,28 @@
+---
+- name: Deploy node-svc App
+  hosts: node-svc
+  tasks:
+    - name: Fetch the latest version of application code
+    # see https://docs.ansible.com/ansible/latest/modules/git_module.html
+      git:
+        repo: 'https://github.com/dm-academy/node-svc-v1'
+        dest: /home/node-user/node-svc-1
+        version: "02"
+      register: git_finished
+
+    - name: NPM install express and initialize app
+    # see https://docs.ansible.com/ansible/latest/modules/npm_module.html
+      npm:
+        name: express
+        global: yes
+      become: true
+    - name: Install packages based on package.json.
+      npm:
+        path: /home/node-user/node-svc-1
+
+    - name: Start app
+    # see https://codelike.pro/deploy-nodejs-app-with-ansible-git-pm2/
+      command: nodejs /home/node-user/node-svc-1/server.js &
+      ignore_errors: yes
+      become: true
+

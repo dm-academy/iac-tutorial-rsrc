@@ -1,0 +1,39 @@
+
+  tasks:
+  - name: Install Packages
+    apt: name={{ item }} update_cache=yes state=latest
+    with_items:
+      #- build-essential
+      - npm
+      - nodejs
+      - git
+
+  - name: Install pm2
+    npm: name=pm2 global=yes production=yes
+
+  - name: Create APP Directory
+    file: path={{homeDir}}/{{appDir}} state=directory
+
+  - - name: Fetch the latest version of application code
+    # see https://docs.ansible.com/ansible/latest/modules/git_module.html
+      git:
+        repo: 'https://github.com/dm-academy/node-svc-v1'
+        dest: /home/node-user/node-svc-1
+        version: "02"
+      register: git_finished
+
+  - name: Running NPM install
+    npm: path={{homeDir}}/{{appDir}}
+    register: npm_finished
+    when: git_finished.changed
+
+  - name: Stop APP
+    sudo_user: node-user
+    command: pm2 stop app chdir={{homeDir}}/{{appDir}}
+    ignore_errors: yes
+
+  - name: Start APP
+    sudo_user: node-user
+    command: pm2 start server.js --name app chdir={{homeDir}}/{{appDir}}
+    ignore_errors: yes
+    when: npm_finished.changed

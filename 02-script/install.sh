@@ -5,6 +5,7 @@ echo "  ----- download, initialize, and run app -----  "
 git clone https://github.com/dm-academy/node-svc-v1
 cd node-svc-v1
 git checkout 02a
+
+npm install express --save
+npm install node-fetch --save
 npm install
-# delete this next I think, just provide a fully specified package.json
-npm install express 

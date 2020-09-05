@@ -15,7 +15,7 @@
   "provisioners": [
       {
           "type": "shell",
-          "script": "{{template_dir}}/../03-script/config.sh",
+          "script": "{{template_dir}}/../../01/config.sh",
           "execute_command": "sudo {{.Path}}"
       }
   ]

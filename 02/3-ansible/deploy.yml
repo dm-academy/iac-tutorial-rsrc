@@ -1,6 +1,6 @@
 ---
 - name: Deploy node-svc App
-  hosts: node-svc
+  hosts: node-svc-grp
   tasks:
     - name: Fetch the latest version of application code
     # see https://docs.ansible.com/ansible/latest/modules/git_module.html

@@ -1,13 +1,11 @@
 
 
-// simple microservice. JSON.stringify was the key, 
-// also understanding that res.send is a hard stop.
+// simple microservice. 
 
 'use strict';
 const express = require('express');
 const fetch = require('node-fetch');
-const bodyParser = require('body-parser')
-//const Request = require("request");
+ const bodyParser = require('body-parser')
 
 // Constants
 const PORT = 3001;
@@ -31,48 +29,6 @@ app.post('/', (req, res) => {
   console.log('Console: server returned success on post.')
 });
 
-// this is where I need to think hard. 
-// this code could be running on any node
-// if someone posts to /1, what to do? 
-// call node-svc-01? that could be a loop. 
-// I really don't want any conditionals
-// how about: if you post to /1, it calls all the 2s 
-// that's an OK start
-
-
-app.get('/1', (req, res) => {
-   fetch('http://localhost:3001')
-    .then(response => response.json())
-    .then(data => {
-   console.log("/1 subrequest rec'd" + JSON.stringify(data))
-  })
-
-  res.write(data);
-  res.status(200).end();
-  console.log('Console: /1 Server returned success on get.')
-});
-
-
-app.post('/1', (req, res) => {
-  var myData = req.body;
-  console.log('Console: server got json:', myData);
-  var now = new Date();
-  myData.ip = req.ip;
-  myData.date = now;
-  console.log('Console: server updated json:', myData); 
-
-  var myData2 = JSON.stringify(myData);
-  res.write(myData2); //
-  res.status(200).end();
-  console.log('Console: server returned success on post.')
-});
-
-app.get('/2', (req, res) => {
-  res.write('Response: /2 successful get from ');
-  res.write(req.ip);
-  res.status(200).end();
-  console.log("Console: /2 Server completed get.\n")
-});
 
 app.listen(PORT, HOST);
 

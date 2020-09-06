@@ -2,8 +2,6 @@
 # Node
 package-lock.json
 node_modules
-node-modules/
-*/node-modules/
 
 
 
